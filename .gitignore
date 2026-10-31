@@ -1,0 +1,18 @@
+
+# Node dependencies
+**/node_modules/
+
+# Environment variables and secrets
+**/.env
+**/.env.*
+!**/.env.example
+
+# Uploaded user files
+**/uploads/
+
+# Build files
+**/build/
+**/dist/
+
+# Logs
+*.log
