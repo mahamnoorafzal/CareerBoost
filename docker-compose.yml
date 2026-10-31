@@ -1,0 +1,39 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: careerboost-mongodb
+    restart: unless-stopped
+    command: ["mongod", "--wiredTigerCacheSizeGB", "0.25"]
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+    mem_limit: 512m
+
+  backend:
+    image: mahamnoor/careerboost-backend:latest
+    container_name: careerboost-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5001:5000"
+    volumes:
+      - resume_uploads:/app/uploads
+    depends_on:
+      - mongodb
+    mem_limit: 768m
+
+  frontend:
+    image: mahamnoor/careerboost-frontend:latest
+    container_name: careerboost-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    mem_limit: 256m
+
+volumes:
+  mongodb_data:
+  resume_uploads:
